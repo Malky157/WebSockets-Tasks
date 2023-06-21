@@ -50,7 +50,7 @@ const Home = () => {
             } else {
 
                 result.buttonClass = ' btn-warning'
-                result.buttonText = `${user.name} is doing this one`
+                result.buttonText = `${task.userIdStarted} is doing this one`
                 result.status = "in progress by someone else"
             }
         }
