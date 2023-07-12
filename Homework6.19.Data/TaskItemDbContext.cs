@@ -22,6 +22,14 @@ namespace Homework6._19.Data
             optionsBuilder.UseSqlServer(_connectionString);
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.Items)
+                .HasForeignKey(t => t.UserIdStarted);
+        }
+
         public DbSet<User> Users { get; set; }
         public DbSet<TaskItem> TaskItems { get; set; }
     }

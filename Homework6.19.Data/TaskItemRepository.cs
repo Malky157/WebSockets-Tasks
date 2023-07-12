@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,18 +15,17 @@ namespace Homework6._19.Data
             _connectionString = connectionString;
         }
 
-        public TaskItem Add(TaskItem task)
+        public void Add(TaskItem task)
         {
             var context = new TaskItemDbContext(_connectionString);
             context.TaskItems.Add(task);
             context.SaveChanges();
-            return task;
         }
 
         public List<TaskItem> GetAll()
         {
             var context = new TaskItemDbContext(_connectionString);
-            return context.TaskItems.ToList();
+            return context.TaskItems.Include(t => t.User).ToList();
         }
 
         public void UpdateTaskItem(TaskItem task)

@@ -11,8 +11,8 @@ namespace Homework6._19.Data
     {
         public int Id { get; set; }
         public string Title { get; set; }       
-        public int UserId { get; set; }
-        public int UserIdStarted { get; set; }
+        
+        public int? UserIdStarted { get; set; }
 
         [JsonIgnore]
         public User User { get; set; }

@@ -26,8 +26,6 @@ namespace Homework6._19.Web.Controllers
         {
             if (taskItem.Title != "" && taskItem != null)
             {
-                var user = GetCurrentUser();
-                taskItem.UserId = user.Id;
                 var repo = new TaskItemRepository(_connectionString);
                 repo.Add(taskItem);
                 _hub.Clients.All.SendAsync("newTask", GetTaskItems());
@@ -63,10 +61,17 @@ namespace Homework6._19.Web.Controllers
 
         [HttpGet]
         [Route("gettaskitems")]
-        public List<TaskItem> GetTaskItems()
+        public List<TaskItemViewModel> GetTaskItems()
         {
             var repo = new TaskItemRepository(_connectionString);
-            return repo.GetAll();
+            var taskItems = repo.GetAll();
+            var list = new List<TaskItemViewModel>();
+            taskItems.ForEach(t => list.Add(new TaskItemViewModel()
+            {
+                TaskItem = t,
+                UserStartedName = t.UserIdStarted != null ? t.User.Name : null
+            }));
+            return list;
         }
 
         private User GetCurrentUser()

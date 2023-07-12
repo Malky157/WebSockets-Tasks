@@ -36,21 +36,21 @@ const Home = () => {
     const whatsStatus = (task) => {
         const result = { taskId: task.id, buttonClass: null, buttonText: null, status: "" }
 
-        if (task.userIdStarted === 0) {
+        if (task.taskItem.userIdStarted === null) {
 
             result.buttonClass = ' btn-dark'
             result.buttonText = "I'm doing this one!"
             result.status = "not taken"
 
         } else {
-            if (task.userIdStarted === user.id) {
+            if (task.taskItem.userIdStarted === user.id) {
                 result.buttonClass = ' btn-success'
                 result.buttonText = "I'm done!"
                 result.status = "in progress by me"
             } else {
 
                 result.buttonClass = ' btn-warning'
-                result.buttonText = `${task.userIdStarted} is doing this one`
+                result.buttonText = `${task.userStartedName} is doing this one`
                 result.status = "in progress by someone else"
             }
         }
@@ -58,7 +58,7 @@ const Home = () => {
             disabled={result.status === "in progress by someone else"}
             className={`btn ${result.buttonClass}`}
 
-            onClick={() => onStatusButtonClick(task, result.status)}>
+            onClick={() => onStatusButtonClick(task.taskItem, result.status)}>
             {result.buttonText}
         </button>
     }
@@ -104,9 +104,8 @@ const Home = () => {
                     </thead>
                     <tbody>
                         {tasks.map(t =>
-                            <tr key={t.id}>
-
-                                <td>{t.title}</td>
+                            <tr key={t.taskItem.id}>
+                                <td>{t.taskItem.title}</td>
                                 <td>
                                     {whatsStatus(t)}
                                 </td>
